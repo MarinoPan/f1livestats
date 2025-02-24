@@ -1,21 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Se vuoi personalizzare con variabili CSS */
+/* :root {
+    --f1-red: #ff1801;
+    --f1-black: #101820;
+    --f1-white: #f7f7f8;
+    --f1-bg-light: #f0f0f0;
+    --f1-bg-dark: #e0e0e0;
+    --f1-gray: #a0a0a0;
+    --f1-dark-gray: #3c3c3c;
+    --f1-border: #d9d9da;
+    --f1-yellow: #ffd700;
+    --f1-blue: #0057b8;
+    --f1-green: #008f4c;
+    --f1-orange: #ff8700;
+    --f1-purple: #550a8a;
+} */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* @media (prefers-color-scheme: dark) { */
+:root {
+    --f1-red: #d41700;
+    --f1-black: #0a0e14;
+    --f1-white: #ffffff;
+    --f1-bg-light: #1a1a1a;
+    --f1-bg-dark: #121212;
+    --f1-gray: #707070;
+    --f1-dark-gray: #2a2a2a;
+    --f1-border: #3c3c3c;
+    --f1-yellow: #e6b800;
+    --f1-blue: #0045a0;
+    --f1-green: #00703a;
+    --f1-orange: #d06000;
+    --f1-purple: #3a0765;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+    color: var(--f1-white);
+    background: var(--f1-bg-dark);
+    scrollbar-color: var(--f1-gray) var(--f1-bg-light);
+    scrollbar-width: thin;
 }
