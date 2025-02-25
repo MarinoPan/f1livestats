@@ -2,17 +2,30 @@ import { useMemo } from "react";
 import { useDrivers } from "./useDrivers";
 import { useLivePositions } from "./useLivePosition";
 import { useLapTimes } from "./useLapTimes";
-import { useCarData } from "./useCarData";
-import {
-    Driver,
-    LivePosition,
-    LiveLap,
-    TyreStint,
-    Gap,
-    CarData,
-} from "@/types/type";
+import { Driver, LivePosition, LiveLap, TyreStint, Gap } from "@/types/type";
 import { useStints } from "./useStints";
 import { useGap } from "./useGap";
+
+export interface DriverCombinedData {
+    driver_number: number;
+    position: number;
+    team_colour: string;
+    last_name: string;
+    positionDiff: number;
+    tyreCompound: string;
+    tyreAge: number;
+    gap: number;
+    gapLeader: number;
+    sector1: number;
+    sector2: number;
+    sector3: number;
+    lapTime: number;
+    segmentSector1: number[];
+    segmentSector2: number[];
+    segmentSector3: number[];
+    a: string;
+    b: string;
+}
 
 export function useCombinedData() {
     const {
@@ -170,7 +183,8 @@ export function useCombinedData() {
                 };
             })
             .sort(
-                (a: any, b: any) => (a.position ?? 999) - (b.position ?? 999)
+                (a: DriverCombinedData, b: DriverCombinedData) =>
+                    (a.position ?? 999) - (b.position ?? 999)
             ); // Ordinamento per posizione
     }, [drivers, livePositions, latestLaps, latestStints, gap]);
 
