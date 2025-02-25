@@ -10,7 +10,7 @@ export default function Dashboard() {
             <Session />
             <div className="grid grid-cols-12 gap-4 w-full">
                 <GridDrivers />
-                <div className="flex gap-4 flex-col col-span-12 md:col-span-4">
+                <div className="flex gap-4 flex-col col-span-12 lg:col-span-4">
                     <Map circuit="70" />
                     <Messages />
                 </div>
