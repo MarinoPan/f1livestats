@@ -1,3 +1,16 @@
+export interface DriverStanding {
+    position: number;
+    points: number;
+    Driver: {
+        driverId: string;
+        givenName: string;
+        familyName: string;
+    };
+    Constructors: {
+        name: string;
+    }[];
+}
+
 export interface Driver {
     session_key: number;
     meeting_key: number;
@@ -111,4 +124,18 @@ export interface CarData {
     session_key: number;
     speed: number;
     throttle: number;
+}
+
+export interface RaceControl {
+    idUnique: string;
+    category: string;
+    date: string; // Potrebbe essere convertito in Date quando lo usi
+    driver_number: number;
+    flag: string;
+    lap_number: number;
+    meeting_key: number;
+    message: string;
+    scope: string;
+    sector: number | null; // Può essere un numero o null
+    session_key: number;
 }

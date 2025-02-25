@@ -1,4 +1,4 @@
-import { useCombinedData } from "@/hooks/useCombinedData";
+import { DriverCombinedData, useCombinedData } from "@/hooks/useCombinedData";
 import TyreIcon from "./TyreIcon";
 import SegmentsSectors from "./SegmentsSectors";
 import PositionChange from "./PositionChange";
@@ -40,7 +40,7 @@ export default function TableDrivers() {
                             </td>
                         </tr>
                     ) : (
-                        drivers.map((driver: any) => (
+                        drivers.map((driver: DriverCombinedData) => (
                             <tr
                                 key={driver.driver_number}
                                 className="border-b border-f1-border text-f1-white"
@@ -64,7 +64,7 @@ export default function TableDrivers() {
                                         positionDiff={driver.positionDiff}
                                     />
                                 </td>
-                                <td>{driver.drs}</td>
+                                <td>{/*{driver.drs} */}</td>
                                 <td className="px-3">
                                     <div className="flex flex-row gap-2 items-center">
                                         <TyreIcon

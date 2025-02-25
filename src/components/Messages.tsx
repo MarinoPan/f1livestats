@@ -1,4 +1,5 @@
 import { useMessages } from "@/hooks/useMessages";
+import { RaceControl } from "@/types/type";
 
 export default function Messages() {
     const {
@@ -18,7 +19,7 @@ export default function Messages() {
     return (
         <section className="bg-f1-bgLight rounded-xl w-full flex flex-col border border-f1-border max-h-96 overflow-hidden">
             <div className="overflow-auto p-3">
-                {messagesInfo.map((messages: any) => {
+                {messagesInfo.map((messages: RaceControl) => {
                     // Creiamo la data in modo sicuro
                     const date = new Date(messages.date); // ✅ Ora usa la data corretta
 
@@ -36,7 +37,7 @@ export default function Messages() {
                           });
 
                     return (
-                        <div className="items-start p-2 grid">
+                        <div key="idUnique" className="items-start p-2 grid">
                             <div className="flex flex-row gap-4 opacity-50">
                                 <p className="text-sm">
                                     LAP {messages.lap_number}

@@ -85,9 +85,7 @@ export async function fetchWeather() {
 
 import { CarData } from "@/types/type";
 
-export const fetchAllCarData = async (
-    driver_number: number
-): Promise<CarData[]> => {
+export const fetchAllCarData = async (): Promise<CarData[]> => {
     const response = await fetch(
         `https://api.openf1.org/v1/car_data?session_key=latest&meeting_key=latest`
     );

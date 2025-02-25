@@ -1,8 +1,6 @@
 import React, { useMemo } from "react";
 import { useCircuitData } from "@/hooks/useCircuitData";
 import { useDrivers } from "@/hooks/useDrivers";
-import MapPositions from "./MapPosition";
-import { Driver } from "@/types/type";
 import { LoaderCircle } from "lucide-react";
 
 const rad = (deg: number) => deg * (Math.PI / 180);
@@ -29,6 +27,7 @@ const Map: React.FC<{ circuit: string }> = ({ circuit }) => {
         error: circuitError,
     } = useCircuitData(circuit);
     const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         data: drivers,
         isLoading: driversLoading,
         error: driversError,
@@ -48,6 +47,7 @@ const Map: React.FC<{ circuit: string }> = ({ circuit }) => {
         const { x, y, rotation } = circuitData;
 
         // Se la rotazione non combacia con l'API, prova a invertire segno o fare 360 - rotation
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const finalAngle = rotation; // Oppure 360 - rotation, o -rotation, a seconda dei casi
 
         // Calcolo del centro

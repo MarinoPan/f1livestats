@@ -1,6 +1,7 @@
 "use client";
 
 import { useStanding } from "@/hooks/useStanding";
+import { DriverStanding } from "@/types/type";
 
 export default function Ranking() {
     const { data: standings, isLoading, isError } = useStanding();
@@ -25,7 +26,7 @@ export default function Ranking() {
                     </thead>
 
                     <tbody className="text-primary text-sm font-medium ">
-                        {standings.map((driver: any) => (
+                        {standings.map((driver: DriverStanding) => (
                             <tr
                                 key={driver.Driver.driverId}
                                 className="border-b border-f1-border text-f1-white"
