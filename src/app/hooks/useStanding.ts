@@ -6,5 +6,6 @@ export function useStanding() {
         queryKey: ["standing"],
         queryFn: fetchStanding,
         staleTime: 60000,
+        refetchInterval: 1000,
     });
 }

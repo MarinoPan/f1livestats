@@ -5,6 +5,7 @@ export function useGap() {
     return useQuery({
         queryKey: ["gap"],
         queryFn: fetchGap,
-        staleTime: 1000,
+        staleTime: 100,
+        refetchInterval: 1000,
     });
 }

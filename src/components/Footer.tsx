@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function Footer() {
     return (
         <footer className="p-6 gap-6 flex flex-col  justify-center bg-secondary text-white">

@@ -11,6 +11,41 @@ export interface DriverStanding {
     }[];
 }
 
+export interface RaceTable {
+    season: string;
+    round: string;
+    raceName: string;
+    Circuit: {
+        circuitId: string;
+        url: string;
+        circuitName: string;
+        Location: {
+            lat: string;
+            long: string;
+            locality: string;
+            country: string;
+        };
+    };
+    date: string;
+    time: string;
+    FirstPractice: {
+        date: string;
+        time: string;
+    };
+    SecondPractice: {
+        date: string;
+        time: string;
+    };
+    ThirdPractice?: {
+        date: string;
+        time: string;
+    };
+    Qualifying: {
+        date: string;
+        time: string;
+    };
+}
+
 export interface Driver {
     session_key: number;
     meeting_key: number;
@@ -127,7 +162,6 @@ export interface CarData {
 }
 
 export interface RaceControl {
-    idUnique: string;
     category: string;
     date: string; // Potrebbe essere convertito in Date quando lo usi
     driver_number: number;

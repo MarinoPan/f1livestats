@@ -4,17 +4,9 @@ import Footer from "@components/Footer";
 import "./globals.css";
 import QueryProvider from "./providers/QueryProvider";
 
-import { Bebas_Neue } from "next/font/google";
-
 type LayoutProps = {
     children: ReactNode;
 };
-
-const bebasNeue = Bebas_Neue({
-    weight: "400",
-    subsets: ["latin"],
-    display: "swap",
-});
 
 export default function RootLayout({ children }: LayoutProps) {
     return (

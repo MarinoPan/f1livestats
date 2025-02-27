@@ -25,15 +25,15 @@ export default function Session() {
         return (
             <p className="text-center text-red-400">Errore nel caricamento</p>
         );
+    console.log(sessionInfo.circuit_short_name);
 
     const session = sessionInfo[0];
-
     const weather = weatherInfo[0];
 
     return (
         <section className="p-3 gap-6 bg-f1-bgLight rounded-xl w-full grid grid-cols-2 lg:grid-cols-3 items-center border border-f1-border">
             <h1 className="text-sm ">
-                Formula 1 - {session.location}, {session.country_name}
+                Formula 1 - {session.circuit_short_name}, {session.country_name}
             </h1>
             <h2 className="text-sm">Session: {session.session_type}</h2>
             <div className="col-span-2 lg:col-span-1 grid grid-cols-3 grid-rows-2 text-xs gap-2">

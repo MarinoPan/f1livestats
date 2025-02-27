@@ -6,5 +6,6 @@ export function useDrivers() {
         queryKey: ["drivers"],
         queryFn: fetchDrivers,
         staleTime: 100,
+        refetchInterval: 1000,
     });
 }

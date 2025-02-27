@@ -5,5 +5,6 @@ export function useSessionInfo() {
     return useQuery({
         queryKey: ["sessionInfo"],
         queryFn: fetchSessionInfo,
+        refetchInterval: 1000,
     });
 }

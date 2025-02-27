@@ -8,7 +8,7 @@ export const useLocation = (driverNumber: number) => {
         queryKey: ["location", driverNumber],
         queryFn: () => fetchPosition(driverNumber),
         staleTime: 1000,
-        refetchInterval: 10000,
+        refetchInterval: 1000,
         select: (positions: PositionData[]) => {
             if (!positions || positions.length === 0) return undefined;
             // Restituisce la posizione più recente basata sulla data
