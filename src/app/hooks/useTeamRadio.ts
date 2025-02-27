@@ -6,6 +6,6 @@ export function useTeamRadio() {
         queryKey: ["TeamRadioInfo"],
         queryFn: fetchTeamRadio,
         staleTime: 1000, // Aggiorna ogni secondo
-        refetchInterval: 1000,
+        refetchInterval: 100,
     });
 }

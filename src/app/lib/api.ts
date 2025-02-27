@@ -24,9 +24,31 @@ export async function fetchSchedules() {
 
 // openf1.org
 
-export async function fetchDrivers() {
+import { Driver } from "@/types/type";
+
+export async function fetchDrivers(): Promise<Driver[]> {
+    const res = await fetch(
+        "https://api.openf1.org/v1/drivers?meeting_key=latest"
+    );
+    if (!res.ok) throw new Error("Errore nel recupero dei driver");
+    return res.json();
+}
+
+import { LivePosition } from "@/types/type";
+
+export async function fetchLivePositions(): Promise<LivePosition[]> {
+    const res = await fetch(
+        "https://api.openf1.org/v1/position?meeting_key=latest"
+    );
+    if (!res.ok) throw new Error("Errore nel recupero delle posizioni");
+    return res.json();
+}
+
+// api che recupero per driver number
+
+export async function fetchLapTimes(driverNumber: number) {
     const response = await fetch(
-        "https://api.openf1.org/v1/drivers?session_key=latest&meeting_key=latest"
+        `https://api.openf1.org/v1/laps?session_key=latest&meeting_key=latest&driver_number=${driverNumber}`
     );
     if (!response.ok) {
         throw new Error("Errore nel recupero dati");
@@ -34,9 +56,9 @@ export async function fetchDrivers() {
     return response.json();
 }
 
-export async function fetchLivePositions() {
+export async function fetchStints(driverNumber: number) {
     const response = await fetch(
-        "https://api.openf1.org/v1/position?meeting_key=latest&session_key=latest"
+        `https://api.openf1.org/v1/stints?session_key=latest&meeting_key=latest&driver_number=${driverNumber}`
     );
     if (!response.ok) {
         throw new Error("Errore nel recupero dati");
@@ -44,9 +66,19 @@ export async function fetchLivePositions() {
     return response.json();
 }
 
-export async function fetchLapTimes() {
+export async function fetchIntervals(driverNumber: number) {
     const response = await fetch(
-        "https://api.openf1.org/v1/laps?session_key=latest&meeting_key=latest"
+        `https://api.openf1.org/v1/intervals?session_key=latest&meeting_key=latest&driver_number=${driverNumber}`
+    );
+    if (!response.ok) {
+        throw new Error("Errore nel recupero dati");
+    }
+    return response.json();
+}
+
+export async function fetchCarData(driverNumber: number) {
+    const response = await fetch(
+        `https://api.openf1.org/v1/car_data?session_key=latest&meeting_key=latest&driver_number=${driverNumber}`
     );
     if (!response.ok) {
         throw new Error("Errore nel recupero dati");
@@ -64,26 +96,6 @@ export async function fetchSessionInfo() {
     return response.json();
 }
 
-export async function fetchStints() {
-    const response = await fetch(
-        "https://api.openf1.org/v1/stints?session_key=latest&meeting_key=latest"
-    );
-    if (!response.ok) {
-        throw new Error("Errore nel recupero dati");
-    }
-    return response.json();
-}
-
-export async function fetchGap() {
-    const response = await fetch(
-        "https://api.openf1.org/v1/intervals?session_key=latest&meeting_key=latest"
-    );
-    if (!response.ok) {
-        throw new Error("Errore nel recupero dati");
-    }
-    return response.json();
-}
-
 export async function fetchWeather() {
     const response = await fetch(
         "https://api.openf1.org/v1/weather?session_key=latest&meeting_key=latest"
@@ -93,16 +105,6 @@ export async function fetchWeather() {
     }
     return response.json();
 }
-
-import { CarData } from "@/types/type";
-
-export const fetchAllCarData = async (): Promise<CarData[]> => {
-    const response = await fetch(
-        `https://api.openf1.org/v1/car_data?session_key=latest&meeting_key=latest`
-    );
-    if (!response.ok) throw new Error("Errore nel recupero della posizione");
-    return response.json();
-};
 
 export async function fetchTeamRadio() {
     const response = await fetch(

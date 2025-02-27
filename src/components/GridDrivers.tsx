@@ -3,9 +3,18 @@ import TyreIcon from "./TyreIcon";
 import SegmentsSectors from "./SegmentsSectors";
 import PositionChange from "./PositionChange";
 import { LoaderCircle } from "lucide-react";
+import { useRaceTable } from "@/hooks/useRaceTable";
 
 export default function TableDrivers() {
-    const { data: drivers, isLoading, error } = useCombinedData();
+    const { data: raceTable, isLoading, error } = useRaceTable();
+
+    if (isLoading) return <p>Caricamento...</p>;
+    if (error) return <p>Errore: {error.message}</p>;
+
+    // ✅ Controlliamo che `raceTable` sia definito prima di usare `.map()`
+    if (!raceTable || raceTable.length === 0) {
+        return <p>Nessun dato disponibile</p>;
+    }
 
     return (
         <div className="w-full mx-auto rounded-xl bg-f1-bgLight col-span-12 lg:col-span-8 border border-f1-border block overflow-auto">
@@ -23,24 +32,20 @@ export default function TableDrivers() {
                         <th className="p-3">Settore 3</th>
                     </tr>
                 </thead>
-                <tbody className="">
-                    {isLoading ? (
-                        <tr>
-                            <td className="content-center justify-items-center">
-                                <LoaderCircle className="animate-spin" />
+                <tbody>
+                    {raceTable.map(({ position, driver }) => (
+                        <tr key={position}>
+                            <td>{position}</td>
+                            <td>{driver ? driver.full_name : "Sconosciuto"}</td>
+                            <td>
+                                {driver ? driver.team_name || "N/A" : "N/A"}
                             </td>
+                            <td>{driver ? driver.driver_number : "?"}</td>
                         </tr>
-                    ) : error ? (
-                        <tr>
-                            <td
-                                colSpan={9}
-                                className="text-center p-4 text-red-400"
-                            >
-                                Errore nel caricamento dei dati
-                            </td>
-                        </tr>
-                    ) : (
-                        drivers.map((driver: DriverCombinedData) => (
+                    ))}
+                </tbody>
+                {/*    <tbody className="">
+                        {drivers.map((driver: DriverCombinedData) => (
                             <tr
                                 key={driver.driver_number}
                                 className="border-b border-f1-border text-f1-white"
@@ -64,7 +69,6 @@ export default function TableDrivers() {
                                         positionDiff={driver.positionDiff}
                                     />
                                 </td>
-                                <td>{/*{driver.drs} */}</td>
                                 <td className="px-3">
                                     <div className="flex flex-row gap-2 items-center">
                                         <TyreIcon
@@ -114,8 +118,10 @@ export default function TableDrivers() {
                                 </td>
                             </tr>
                         ))
+
+                           
                     )}
-                </tbody>
+                </tbody> */}
             </table>
         </div>
     );

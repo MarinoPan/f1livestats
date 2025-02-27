@@ -6,6 +6,6 @@ export function useWeather() {
         queryKey: ["WeatherInfo"],
         queryFn: fetchWeather,
         staleTime: 100, // Aggiorna ogni secondo
-        refetchInterval: 1000,
+        refetchInterval: 100,
     });
 }

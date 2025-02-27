@@ -1,11 +1,11 @@
-import { fetchAllCarData } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import { fetchCarData } from "@/lib/api";
 
-export const useCarData = () => {
+export function useCarData(driverNumber: number) {
     return useQuery({
-        queryKey: ["carData"],
-        queryFn: () => fetchAllCarData,
-        staleTime: 100,
-        refetchInterval: 1000,
+        queryKey: ["CarData", driverNumber],
+        queryFn: () => fetchCarData(driverNumber),
+        staleTime: 1000,
+        enabled: !!driverNumber,
     });
-};
+}

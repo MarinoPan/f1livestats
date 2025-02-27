@@ -4,7 +4,7 @@ import { useLivePositions } from "./useLivePosition";
 import { useLapTimes } from "./useLapTimes";
 import { Driver, LivePosition, LiveLap, TyreStint, Gap } from "@/types/type";
 import { useStints } from "./useStints";
-import { useGap } from "./useGap";
+import { useIntervals } from "./useIntervals";
 
 export interface DriverCombinedData {
     driver_number: number;

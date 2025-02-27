@@ -8,6 +8,6 @@ export const useCircuitData = (circuit: string) => {
         queryKey: ["circuit", circuit],
         queryFn: () => fetchCircuitData(circuit),
         staleTime: 60 * 1000,
-        refetchInterval: 1000,
+        refetchInterval: 100,
     });
 };

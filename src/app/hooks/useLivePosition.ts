@@ -6,6 +6,6 @@ export function useLivePositions() {
         queryKey: ["livePositions"],
         queryFn: fetchLivePositions,
         staleTime: 1000, // Aggiorna ogni secondo
-        refetchInterval: 1000,
+        refetchInterval: 100,
     });
 }

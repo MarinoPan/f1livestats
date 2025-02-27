@@ -11,7 +11,7 @@ export interface DriverStanding {
     }[];
 }
 
-export interface RaceTable {
+/* export interface RaceTable {
     season: string;
     round: string;
     raceName: string;
@@ -45,7 +45,7 @@ export interface RaceTable {
         time: string;
     };
 }
-
+ */
 export interface Driver {
     session_key: number;
     meeting_key: number;

@@ -15,7 +15,7 @@ const MapPositions: React.FC<MapPositionsProps> = ({ drivers }) => {
             queryKey: ["location", driver.driver_number],
             queryFn: () => fetchPosition(driver.driver_number),
             staleTime: 100,
-            refetchInterval: 1000,
+            refetchInterval: 100,
             // Utilizziamo "select" per restituire l'ultima posizione in base alla data
             select: (positions: PositionData[]) => {
                 if (!positions || positions.length === 0) return undefined;

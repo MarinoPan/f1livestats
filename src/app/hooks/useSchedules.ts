@@ -6,6 +6,6 @@ export function useSchedules() {
         queryKey: ["schedules"],
         queryFn: fetchSchedules,
         staleTime: 60000,
-        refetchInterval: 1000,
+        refetchInterval: 100,
     });
 }
