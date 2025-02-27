@@ -5,7 +5,7 @@ export function useMessages() {
     return useQuery({
         queryKey: ["messagesInfo"],
         queryFn: fetchMessages,
-        staleTime: 1000, // Aggiorna ogni secondo
+        staleTime: 100, // Aggiorna ogni secondo
         select: (data) =>
             [...data].sort(
                 (a, b) =>

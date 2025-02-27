@@ -3,8 +3,8 @@ import React from "react";
 
 const navigationLinks = [
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Schedules", href: "/schedule" },
-    { name: "Standing", href: "/standings" },
+    { name: "Schedule", href: "/schedule" },
+    { name: "Standing", href: "/standing" },
 ];
 
 function Header() {

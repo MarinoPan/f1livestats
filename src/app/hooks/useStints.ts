@@ -6,6 +6,7 @@ export function useStints() {
     return useQuery<TyreStint[]>({
         queryKey: ["Stints"],
         queryFn: fetchStints,
-        staleTime: 5000,
+        staleTime: 100,
+        refetchInterval: 1000,
     });
 }

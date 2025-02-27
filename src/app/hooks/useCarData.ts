@@ -5,6 +5,7 @@ export const useCarData = () => {
     return useQuery({
         queryKey: ["carData"],
         queryFn: () => fetchAllCarData,
-        staleTime: 1000,
+        staleTime: 100,
+        refetchInterval: 1000,
     });
 };

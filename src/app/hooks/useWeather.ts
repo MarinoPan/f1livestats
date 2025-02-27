@@ -5,6 +5,7 @@ export function useWeather() {
     return useQuery({
         queryKey: ["WeatherInfo"],
         queryFn: fetchWeather,
-        staleTime: 1000, // Aggiorna ogni secondo
+        staleTime: 100, // Aggiorna ogni secondo
+        refetchInterval: 1000,
     });
 }

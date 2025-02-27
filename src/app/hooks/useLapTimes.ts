@@ -6,5 +6,6 @@ export function useLapTimes() {
         queryKey: ["lapTimes"],
         queryFn: fetchLapTimes,
         staleTime: 1000, // Aggiorna ogni secondo
+        refetchInterval: 1000,
     });
 }
