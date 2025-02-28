@@ -1,9 +1,7 @@
-import { DriverCombinedData, useCombinedData } from "@/hooks/useCombinedData";
 import TyreIcon from "./TyreIcon";
-import SegmentsSectors from "./SegmentsSectors";
 import PositionChange from "./PositionChange";
-import { LoaderCircle } from "lucide-react";
 import { useRaceTable } from "@/hooks/useRaceTable";
+import Interval from "./Gap";
 
 export default function TableDrivers() {
     const { data: raceTable, isLoading, error } = useRaceTable();
@@ -33,50 +31,46 @@ export default function TableDrivers() {
                     </tr>
                 </thead>
                 <tbody>
-                    {raceTable.map(({ position, driver }) => (
-                        <tr key={position}>
-                            <td>{position}</td>
-                            <td>{driver ? driver.full_name : "Sconosciuto"}</td>
-                            <td>
-                                {driver ? driver.team_name || "N/A" : "N/A"}
-                            </td>
-                            <td>{driver ? driver.driver_number : "?"}</td>
-                        </tr>
-                    ))}
-                </tbody>
-                {/*    <tbody className="">
-                        {drivers.map((driver: DriverCombinedData) => (
+                    {raceTable
+                        .filter(({ driver }) => driver !== null)
+                        .map(({ position, driver, positionDiff }) => (
                             <tr
-                                key={driver.driver_number}
                                 className="border-b border-f1-border text-f1-white"
+                                key={position}
                             >
                                 <td className="px-3">
                                     <div className="flex flex-row gap-4 items-center">
                                         <p className="font-bold w-3">
-                                            {driver.position ?? "-"}
+                                            {position ?? "-"}
                                         </p>
                                         <div
                                             className="w-1 h-5"
                                             style={{
-                                                backgroundColor: `#${driver.team_colour}`,
+                                                backgroundColor: `#${driver?.team_colour}`,
                                             }}
                                         />
-                                        <p className="">{driver.last_name}</p>
+                                        <p className="">{driver?.last_name}</p>
                                     </div>
                                 </td>
-                                <td>
+                                <td className="px-3">
                                     <PositionChange
-                                        positionDiff={driver.positionDiff}
+                                        positionDiff={positionDiff}
                                     />
                                 </td>
                                 <td className="px-3">
-                                    <div className="flex flex-row gap-2 items-center">
-                                        <TyreIcon
-                                            compound={driver.tyreCompound[0]}
-                                        />
-                                        <p>L {driver.tyreAge}</p>
-                                    </div>
+                                    <TyreIcon
+                                        driver_number={driver?.driver_number}
+                                    />
                                 </td>
+                                <td className="px-3">
+                                    <Interval
+                                        driver_number={driver?.driver_number}
+                                    />
+                                </td>
+                            </tr>
+                        ))}
+                </tbody>
+                {/*    
                                 <td className="px-3 py-1">
                                     <p className="font-bold">{driver.gap}</p>
                                     <p>{driver.gapLeader}</p>

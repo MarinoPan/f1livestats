@@ -1,5 +1,5 @@
 "use client";
-import GridDrivers from "@components/GridDrivers";
+import GridDrivers from "@components/DataDriverTable/GridDrivers";
 import Map from "@components/Map";
 import Messages from "@components/Messages";
 import Session from "@components/Session";

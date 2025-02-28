@@ -115,7 +115,7 @@ const Map: React.FC<{ circuit: string }> = ({ circuit }) => {
                     strokeLinejoin="round"
                 />
             )}
-            <MapPositions drivers={drivers as Driver[]} />
+            {/* <MapPositions drivers={drivers as Driver[]} /> */}
             {/* Qui puoi aggiungere la logica per disegnare i driver, corner, ecc. */}
         </svg>
     );
