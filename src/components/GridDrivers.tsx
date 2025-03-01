@@ -3,6 +3,7 @@ import TyreIcon from "./TyreIcon";
 import SegmentsSectors from "./SegmentsSectors";
 import PositionChange from "./PositionChange";
 import { LoaderCircle } from "lucide-react";
+import PositionDriver from "./DriverPosition";
 
 export default function TableDrivers() {
     const { data: drivers, isLoading, error } = useCombinedData();
@@ -46,18 +47,11 @@ export default function TableDrivers() {
                                 className="border-b border-f1-border text-f1-white"
                             >
                                 <td className="px-3">
-                                    <div className="flex flex-row gap-4 items-center">
-                                        <p className="font-bold w-3">
-                                            {driver.position ?? "-"}
-                                        </p>
-                                        <div
-                                            className="w-1 h-5"
-                                            style={{
-                                                backgroundColor: `#${driver.team_colour}`,
-                                            }}
-                                        />
-                                        <p className="">{driver.last_name}</p>
-                                    </div>
+                                    <PositionDriver
+                                        position={driver.position}
+                                        color={driver.team_colour}
+                                        acronym={driver.last_name}
+                                    />
                                 </td>
                                 <td>
                                     <PositionChange
