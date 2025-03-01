@@ -2,8 +2,6 @@ import React, { useMemo } from "react";
 import { useCircuitData } from "@/hooks/useCircuitData";
 import { useDrivers } from "@/hooks/useDrivers";
 import { LoaderCircle } from "lucide-react";
-import MapPositions from "./MapPosition";
-import { Driver } from "@/types/type";
 
 const rad = (deg: number) => deg * (Math.PI / 180);
 const rotate = (
@@ -115,7 +113,7 @@ const Map: React.FC<{ circuit: string }> = ({ circuit }) => {
                     strokeLinejoin="round"
                 />
             )}
-            <MapPositions drivers={drivers as Driver[]} />
+            {/* <MapPositions drivers={drivers as Driver[]} /> */}
             {/* Qui puoi aggiungere la logica per disegnare i driver, corner, ecc. */}
         </svg>
     );
