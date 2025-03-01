@@ -24,59 +24,9 @@ export async function fetchSchedules() {
 
 // openf1.org
 
-export async function fetchDrivers() {
-    const response = await fetch(
-        "https://api.openf1.org/v1/drivers?session_key=latest&meeting_key=latest"
-    );
-    if (!response.ok) {
-        throw new Error("Errore nel recupero dati");
-    }
-    return response.json();
-}
-
-export async function fetchLivePositions() {
-    const response = await fetch(
-        "https://api.openf1.org/v1/position?meeting_key=latest&session_key=latest"
-    );
-    if (!response.ok) {
-        throw new Error("Errore nel recupero dati");
-    }
-    return response.json();
-}
-
-export async function fetchLapTimes() {
-    const response = await fetch(
-        "https://api.openf1.org/v1/laps?session_key=latest&meeting_key=latest"
-    );
-    if (!response.ok) {
-        throw new Error("Errore nel recupero dati");
-    }
-    return response.json();
-}
-
 export async function fetchSessionInfo() {
     const response = await fetch(
         "https://api.openf1.org/v1/sessions?session_key=latest"
-    );
-    if (!response.ok) {
-        throw new Error("Errore nel recupero dati");
-    }
-    return response.json();
-}
-
-export async function fetchStints() {
-    const response = await fetch(
-        "https://api.openf1.org/v1/stints?session_key=latest&meeting_key=latest"
-    );
-    if (!response.ok) {
-        throw new Error("Errore nel recupero dati");
-    }
-    return response.json();
-}
-
-export async function fetchGap() {
-    const response = await fetch(
-        "https://api.openf1.org/v1/intervals?session_key=latest&meeting_key=latest"
     );
     if (!response.ok) {
         throw new Error("Errore nel recupero dati");
@@ -93,16 +43,6 @@ export async function fetchWeather() {
     }
     return response.json();
 }
-
-import { CarData } from "@/types/type";
-
-export const fetchAllCarData = async (): Promise<CarData[]> => {
-    const response = await fetch(
-        `https://api.openf1.org/v1/car_data?session_key=latest&meeting_key=latest`
-    );
-    if (!response.ok) throw new Error("Errore nel recupero della posizione");
-    return response.json();
-};
 
 export async function fetchTeamRadio() {
     const response = await fetch(
