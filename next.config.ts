@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
-const path = require("path");
+import path from "path";
 
-const nextConfig = {
-    webpack: (config: { resolve: { alias: any } }) => {
+const nextConfig: NextConfig = {
+    webpack: (config) => {
         config.resolve.alias = {
             ...config.resolve.alias,
             "@": path.resolve(__dirname, "src"), // Assicura che @ punti a /src
@@ -10,3 +10,5 @@ const nextConfig = {
         return config;
     },
 };
+
+export default nextConfig;

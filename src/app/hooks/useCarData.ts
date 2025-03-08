@@ -1,11 +1,15 @@
-import { fetchAllCarData } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+
+const fetchCarData = async () => {
+    const response = await fetch("/static/CarData.json");
+    if (!response.ok) throw new Error("Errore nel caricamento dei dati");
+    return response.json();
+};
 
 export const useCarData = () => {
     return useQuery({
         queryKey: ["carData"],
-        queryFn: () => fetchAllCarData,
-        staleTime: 100,
-        refetchInterval: 1000,
+        queryFn: fetchCarData,
+        staleTime: 1000,
     });
 };

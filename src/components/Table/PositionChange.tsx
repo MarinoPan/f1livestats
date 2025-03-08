@@ -1,10 +1,22 @@
+import { useLapSeries } from "@/hooks/useLapSeries";
 import { ArrowUp, ArrowDown, Minus } from "lucide-react";
 
 type PositionChangeProps = {
-    positionDiff: number;
+    racingNumber: string;
 };
 
-const PositionChange = ({ positionDiff }: PositionChangeProps) => {
+const PositionChange = ({ racingNumber }: PositionChangeProps) => {
+    const { data: lapSeries, isLoading, error } = useLapSeries();
+
+    if (isLoading) return <p>...</p>;
+    if (error) return <p>err</p>;
+
+    const positionDiff =
+        lapSeries[racingNumber]?.LapPosition[0] -
+        lapSeries[racingNumber]?.LapPosition[
+            lapSeries[racingNumber].LapPosition.length - 1
+        ];
+
     const positionStatus =
         positionDiff > 0
             ? "text-green-500"
@@ -16,7 +28,7 @@ const PositionChange = ({ positionDiff }: PositionChangeProps) => {
     return (
         <div className={`flex items-center gap-1 ${positionStatus}`}>
             <Icon size={16} />
-            <span>{positionDiff}</span>
+            <p>{positionDiff}</p>
         </div>
     );
 };

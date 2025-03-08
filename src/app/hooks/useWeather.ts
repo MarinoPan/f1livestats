@@ -1,11 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchWeather } from "@/lib/api";
 
-export function useWeather() {
+const fetchWeather = async () => {
+    const response = await fetch("/static/WeatherData.json");
+    if (!response.ok) throw new Error("Errore nel caricamento dei dati");
+    return response.json();
+};
+
+export const useWeather = () => {
     return useQuery({
-        queryKey: ["WeatherInfo"],
+        queryKey: ["weather"],
         queryFn: fetchWeather,
-        staleTime: 100, // Aggiorna ogni secondo
-        refetchInterval: 1000,
+        staleTime: 1000 * 60 * 5,
     });
-}
+};

@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { useCircuitData } from "@/hooks/useCircuitData";
-import { useDrivers } from "@/hooks/useDrivers";
 import { LoaderCircle } from "lucide-react";
 
 const rad = (deg: number) => deg * (Math.PI / 180);
@@ -26,12 +25,6 @@ const Map: React.FC<{ circuit: string }> = ({ circuit }) => {
         isLoading: circuitLoading,
         error: circuitError,
     } = useCircuitData(circuit);
-    const {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        data: drivers,
-        isLoading: driversLoading,
-        error: driversError,
-    } = useDrivers();
 
     const { transformedPoints, viewBox, stroke } = useMemo(() => {
         if (!circuitData) {
@@ -83,14 +76,13 @@ const Map: React.FC<{ circuit: string }> = ({ circuit }) => {
         };
     }, [circuitData]);
 
-    if (circuitLoading || driversLoading)
+    if (circuitLoading)
         return (
             <div className="h-96 w-full mx-auto rounded-xl bg-f1-bgLight overflow-hidden p-6 col-span-4 border border-f1-border content-center justify-items-center">
                 <LoaderCircle className="animate-spin" />
             </div>
         );
-    if (circuitError || driversError)
-        return <div>Errore nel caricamento dei dati</div>;
+    if (circuitError) return <div>Errore nel caricamento dei dati</div>;
 
     return (
         <svg

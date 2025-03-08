@@ -1,114 +1,213 @@
-import { DriverCombinedData, useCombinedData } from "@/hooks/useCombinedData";
-import TyreIcon from "./TyreIcon";
-import SegmentsSectors from "./SegmentsSectors";
-import PositionChange from "./PositionChange";
-import { LoaderCircle } from "lucide-react";
-import PositionDriver from "./DriverPosition";
+import TyreIcon from "./Table/TyreIcon";
+import SegmentsSectors from "./Table/SegmentsSectors";
+import PositionChange from "./Table/PositionChange";
+import PositionDriver from "./Table/DriverPosition";
+import { useDrivers } from "@/hooks/useDriver";
+import { useTimingStats } from "@/hooks/useTimingStats";
+import { useTimingAppData } from "@/hooks/useTimingAppData";
+import { useTimingData } from "@/hooks/useTimingData";
+import useCalculatePosition from "@/hooks/useCalculatePosition";
+import { useCarData } from "@/hooks/useCarData";
+import CarSpeed from "./Table/CarSpeed";
+import CarDrs from "./Table/CarDrs";
+import { useLapSeries } from "@/hooks/useLapSeries";
 
 export default function TableDrivers() {
-    const { data: drivers, isLoading, error } = useCombinedData();
+    const { data: position } = useTimingStats();
+
+    const CalculatePosition = useCalculatePosition(position);
+
+    const { data: driver, isLoading, error } = useDrivers();
+
+    const {
+        data: stint,
+        isLoading: LoadingStint,
+        error: errorStint,
+    } = useTimingAppData();
+
+    const {
+        data: sector,
+        isLoading: LoadingTimingData,
+        error: errorTimingData,
+    } = useTimingData();
+
+    const {
+        data: carData,
+        isLoading: LoadingCarData,
+        error: errorCarData,
+    } = useCarData();
+
+    const {
+        data: lapSeries,
+        isLoading: LoadingLapSeries,
+        error: errorLapSeries,
+    } = useLapSeries();
+
+    if (
+        isLoading ||
+        LoadingStint ||
+        LoadingTimingData ||
+        LoadingCarData ||
+        LoadingLapSeries
+    )
+        return <p>Loading drivers...</p>;
+    if (
+        error ||
+        errorStint ||
+        errorTimingData ||
+        errorCarData ||
+        errorLapSeries
+    )
+        return <p>Error loading drivers.</p>;
 
     return (
         <div className="w-full mx-auto rounded-xl bg-f1-bgLight col-span-12 lg:col-span-8 border border-f1-border block overflow-auto">
             <table className="table-auto w-full text-white text-xs text-left border-collapse">
                 <thead className="border-b border-f1-border">
-                    <tr>
-                        <th className="p-3">Position</th>
-                        <th className="p-3">Info</th>
-                        <th className="p-3">DRS</th>
-                        <th className="p-3">Tyre</th>
-                        <th className="p-3">Gap</th>
-                        <th className="p-3">Lap Time</th>
-                        <th className="p-3">Settore 1</th>
-                        <th className="p-3">Settore 2</th>
-                        <th className="p-3">Settore 3</th>
+                    <tr className="">
+                        <th className="px-5 py-2 font-normal">Driver</th>
+                        <th className="px-5 text-center font-normal">Info</th>
+                        <th className="px-6 text-center font-normal">Speed</th>
+                        <th className="px-3 py-2 font-normal">DRS</th>
+                        <th className="px-3 py-2 font-normal">Tyre</th>
+                        <th className="px-5 py-2 font-normal">Gap</th>
+                        <th className="px-3 py-2 font-normal">Lap Time</th>
+                        <th className="px-3 py-2 font-normal">Settore 1</th>
+                        <th className="px-3 py-2 font-normal">Settore 2</th>
+                        <th className="px-3 py-2 font-normal">Settore 3</th>
                     </tr>
                 </thead>
                 <tbody className="">
-                    {isLoading ? (
-                        <tr>
-                            <td className="content-center justify-items-center">
-                                <LoaderCircle className="animate-spin" />
+                    {CalculatePosition.map((entry) => (
+                        <tr
+                            key={entry.RacingNumber}
+                            className="border-b border-f1-border text-f1-white text-sm"
+                        >
+                            <td className="px-5">
+                                <PositionDriver
+                                    position={
+                                        entry.PersonalBestLapTime.Position
+                                    }
+                                    color={
+                                        driver[entry.RacingNumber]?.TeamColour
+                                    }
+                                    teamName={
+                                        driver[entry.RacingNumber].TeamName
+                                    }
+                                    acronym={driver[entry.RacingNumber]?.Tla}
+                                />
+                            </td>
+                            <td className="px-5">
+                                <PositionChange
+                                    racingNumber={entry.RacingNumber}
+                                />
+                            </td>
+                            <td className="px-6">
+                                {" "}
+                                <CarSpeed
+                                    speed={
+                                        carData.Entries[0].Cars[
+                                            entry.RacingNumber
+                                        ]?.Channels["2"]
+                                    }
+                                />
+                            </td>
+                            <td className="px-3">
+                                {" "}
+                                <CarDrs
+                                    drs={
+                                        carData.Entries[0].Cars[
+                                            entry.RacingNumber
+                                        ]?.Channels["45"]
+                                    }
+                                />
+                            </td>
+
+                            <td className="px-3">
+                                <TyreIcon
+                                    compound={
+                                        stint.Lines[entry.RacingNumber]
+                                            ?.Stints?.[
+                                            stint.Lines[entry.RacingNumber]
+                                                ?.Stints.length - 1
+                                        ]?.Compound
+                                    }
+                                    totalLaps={
+                                        stint.Lines[entry.RacingNumber]
+                                            ?.Stints?.[
+                                            stint.Lines[entry.RacingNumber]
+                                                ?.Stints.length - 1
+                                        ]?.TotalLaps
+                                    }
+                                />
+                            </td>
+                            <td className="px-5 py-1">
+                                <p className="font-bold">
+                                    {
+                                        sector.Lines[entry.RacingNumber]
+                                            ?.TimeDiffToPositionAhead
+                                    }
+                                </p>
+                                <p className="text-xs">
+                                    {
+                                        sector.Lines[entry.RacingNumber]
+                                            ?.TimeDiffToFastest
+                                    }
+                                </p>
+                            </td>
+                            <td className="px-3 font-bold">
+                                {
+                                    sector.Lines[entry.RacingNumber]
+                                        ?.LastLapTime.Value
+                                }
+                            </td>
+                            <td className="px-3">
+                                <div className="flex flex-col gap-1">
+                                    {
+                                        sector.Lines[entry.RacingNumber]
+                                            ?.Sectors[0].Value
+                                    }
+                                    <SegmentsSectors
+                                        segment={sector.Lines[
+                                            entry.RacingNumber
+                                        ]?.Sectors[0].Segments.map(
+                                            (s) => s.Status
+                                        )}
+                                    />
+                                </div>
+                            </td>
+                            <td className="px-3 ">
+                                <div className="flex flex-col gap-1">
+                                    {
+                                        sector.Lines[entry.RacingNumber]
+                                            ?.Sectors[1].Value
+                                    }
+                                    <SegmentsSectors
+                                        segment={sector.Lines[
+                                            entry.RacingNumber
+                                        ]?.Sectors[1].Segments.map(
+                                            (s) => s.Status
+                                        )}
+                                    />
+                                </div>
+                            </td>
+                            <td className="px-3 ">
+                                <div className="flex flex-col gap-1">
+                                    {
+                                        sector.Lines[entry.RacingNumber]
+                                            ?.Sectors[2].Value
+                                    }
+                                    <SegmentsSectors
+                                        segment={sector.Lines[
+                                            entry.RacingNumber
+                                        ]?.Sectors[2].Segments.map(
+                                            (s) => s.Status
+                                        )}
+                                    />
+                                </div>
                             </td>
                         </tr>
-                    ) : error ? (
-                        <tr>
-                            <td
-                                colSpan={9}
-                                className="text-center p-4 text-red-400"
-                            >
-                                Errore nel caricamento dei dati
-                            </td>
-                        </tr>
-                    ) : (
-                        drivers.map((driver: DriverCombinedData) => (
-                            <tr
-                                key={driver.driver_number}
-                                className="border-b border-f1-border text-f1-white"
-                            >
-                                <td className="px-3">
-                                    <PositionDriver
-                                        position={driver.position}
-                                        color={driver.team_colour}
-                                        acronym={driver.last_name}
-                                    />
-                                </td>
-                                <td>
-                                    <PositionChange
-                                        positionDiff={driver.positionDiff}
-                                    />
-                                </td>
-                                <td>{/*{driver.drs} */}</td>
-                                <td className="px-3">
-                                    <div className="flex flex-row gap-2 items-center">
-                                        <TyreIcon
-                                            compound={driver.tyreCompound[0]}
-                                        />
-                                        <p>L {driver.tyreAge}</p>
-                                    </div>
-                                </td>
-                                <td className="px-3 py-1">
-                                    <p className="font-bold">{driver.gap}</p>
-                                    <p>{driver.gapLeader}</p>
-                                </td>
-                                <td className="px-3 font-bold">
-                                    {driver.sector1
-                                        ? `${driver.lapTime}`
-                                        : "N/A"}
-                                </td>
-                                <td className="px-3">
-                                    <div className="flex flex-col gap-1">
-                                        {driver.sector1
-                                            ? `${driver.sector1}`
-                                            : "N/A"}
-                                        <SegmentsSectors
-                                            segment={driver.segmentSector1}
-                                        />
-                                    </div>
-                                </td>
-                                <td className="px-3 ">
-                                    <div className="flex flex-col gap-1">
-                                        {driver.sector2
-                                            ? `${driver.sector2}`
-                                            : "N/A"}
-                                        <SegmentsSectors
-                                            segment={driver.segmentSector2}
-                                        />
-                                    </div>
-                                </td>
-                                <td className="px-3 ">
-                                    <div className="flex flex-col gap-1">
-                                        {driver.sector3
-                                            ? `${driver.sector3}`
-                                            : "N/A"}
-                                        <SegmentsSectors
-                                            segment={driver.segmentSector3}
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                    )}
+                    ))}
                 </tbody>
             </table>
         </div>

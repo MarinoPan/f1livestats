@@ -1,46 +1,31 @@
-import { useEffect, useState } from "react";
 import { useMessages } from "@/hooks/useMessages";
-import { RaceControl } from "@/types/type";
+import { MessagesTrack } from "@/types/messagesType";
 import { v4 as uuidv4 } from "uuid";
+import { useState, useEffect } from "react";
 
 export default function Messages() {
-    const {
-        data: messagesInfo,
-        isLoading: loadingMessages,
-        error: errorMessages,
-    } = useMessages();
-
-    const [messagesWithKeys, setMessagesWithKeys] = useState<
-        { id: string } & RaceControl[]
-    >([]);
+    const { data: messages, isLoading, error } = useMessages();
+    const [messagesWithId, setMessagesWithId] = useState<MessagesTrack[]>([]);
 
     useEffect(() => {
-        if (!messagesInfo || !Array.isArray(messagesInfo)) return;
+        if (messages?.Messages) {
+            setMessagesWithId(
+                messages.Messages.map((msg: MessagesTrack) => ({
+                    ...msg,
+                    id: uuidv4(),
+                }))
+            );
+        }
+    }, [messages]);
 
-        // Generiamo un ID univoco per ogni messaggio
-        const newMessages = messagesInfo.map((message) => ({
-            ...message,
-            id: `${message.date}-${message.driver_number}` || uuidv4(),
-        }));
-        setMessagesWithKeys(newMessages);
-    }, [messagesInfo]); // Si aggiorna solo quando cambiano i dati
-
-    if (loadingMessages)
-        return <p className="text-center text-gray-400">Caricamento dati...</p>;
-    if (errorMessages)
-        return (
-            <p className="text-center text-red-400">Errore nel caricamento</p>
-        );
-    if (!messagesInfo) return <p>Caricamento...</p>;
+    if (isLoading) return <p>Loading messages...</p>;
+    if (error) return <p>Error loading messages.</p>;
 
     return (
         <section className="bg-f1-bgLight rounded-xl w-full flex flex-col border border-f1-border max-h-96 overflow-hidden">
             <div className="overflow-auto p-3">
-                {messagesWithKeys.map((message) => {
-                    // Creiamo la data in modo sicuro
-                    const date = new Date(message.date);
-
-                    // Verifichiamo se la data è valida
+                {messagesWithId.map((msg) => {
+                    const date = new Date(msg.Utc);
                     const formattedDate = isNaN(date.getTime())
                         ? "Data non valida"
                         : date.toLocaleString("it-IT", {
@@ -54,15 +39,13 @@ export default function Messages() {
                           });
 
                     return (
-                        <div className="items-start p-2 grid" key={message.id}>
+                        <div className="items-start p-2 grid" key={msg.id}>
                             <div className="flex flex-row gap-4 opacity-50">
-                                <p className="text-sm">
-                                    LAP {message.lap_number}
-                                </p>
+                                <p className="text-sm">{msg.Category}</p>
                                 <p className="text-sm">{formattedDate}</p>
                             </div>
                             <p className="text-sm font-semibold font-inter">
-                                {message.message}
+                                {msg.Message}
                             </p>
                         </div>
                     );

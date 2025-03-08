@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchMessages } from "@/lib/api";
 
-export function useMessages() {
+const fetchMessages = async () => {
+    const response = await fetch("/static/messages.json");
+    if (!response.ok) throw new Error("Errore nel caricamento dei dati");
+    return response.json();
+};
+
+export const useMessages = () => {
     return useQuery({
-        queryKey: ["messagesInfo"],
+        queryKey: ["messages"],
         queryFn: fetchMessages,
-        staleTime: 100, // Aggiorna ogni secondo
-        select: (data) =>
-            [...data].sort(
-                (a, b) =>
-                    new Date(b.date).getTime() - new Date(a.date).getTime()
-            ), // Ordina tutto l'array
+        staleTime: 1000 * 60 * 5,
     });
-}
+};
