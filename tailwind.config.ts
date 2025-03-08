@@ -37,6 +37,9 @@ module.exports = {
                 xl: "12px",
                 "2xl": "20px",
             },
+            fontSize: {
+                xxs: "10px",
+            },
         },
     },
     plugins: [],

@@ -5,31 +5,29 @@ const SegmentsSectors: React.FC<{ segment?: number[] }> = ({
     segment = [],
 }) => {
     const segments: Record<number, string> = {
-        0: "white",
-        2048: "yellow",
-        2049: "green",
-        2050: "black",
-        2051: "purple",
-        2052: "red",
-        2064: "blue",
+        0: "",
+        2048: "var(--f1-yellow",
+        2049: "var(--f1-green",
+        2050: "var(--f1-black",
+        2051: "var(--f1-blue",
+        2052: "var(--f1-red)",
+        2064: "var(--f1-purple",
         2068: "white",
     };
 
-    // Stato per memorizzare i segmenti con ID unici
     const [segmentsWithKeys, setSegmentsWithKeys] = useState<
         { id: string; color: string }[]
     >([]);
 
     useEffect(() => {
-        if (!segment || !Array.isArray(segment)) return; // Evita errori se segment è null o undefined
+        if (!segment || !Array.isArray(segment)) return;
 
-        // Genera una lista con ID unici per ogni valore del segmento
         const newSegments = segment.map((seg) => ({
             id: uuidv4(),
-            color: segments[seg] || "gray", // Default a "gray" se il valore non è trovato
+            color: segments[seg] || "bg-gray-500",
         }));
         setSegmentsWithKeys(newSegments);
-    }, [segment]); // Si aggiorna solo quando il segmento cambia
+    }, [segment]);
 
     return (
         <div className="flex space-x-1">
@@ -37,7 +35,7 @@ const SegmentsSectors: React.FC<{ segment?: number[] }> = ({
                 <div
                     key={seg.id}
                     style={{ backgroundColor: seg.color }}
-                    className="w-2 h-1 rounded-md"
+                    className="w-2 h-1 rounded-md bg-f1"
                 ></div>
             ))}
         </div>
