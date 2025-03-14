@@ -4,13 +4,10 @@ import PositionChange from "./Table/PositionChange";
 import PositionDriver from "./Table/DriverPosition";
 import { useDrivers } from "@/hooks/useDriver";
 import { useTimingStats } from "@/hooks/useTimingStats";
-import { useTimingAppData } from "@/hooks/useTimingAppData";
 import { useTimingData } from "@/hooks/useTimingData";
 import useCalculatePosition from "@/hooks/useCalculatePosition";
-import { useCarData } from "@/hooks/useCarData";
 import CarSpeed from "./Table/CarSpeed";
 import CarDrs from "./Table/CarDrs";
-import { useLapSeries } from "@/hooks/useLapSeries";
 
 export default function TableDrivers() {
     const { data: position } = useTimingStats();
@@ -20,45 +17,13 @@ export default function TableDrivers() {
     const { data: driver, isLoading, error } = useDrivers();
 
     const {
-        data: stint,
-        isLoading: LoadingStint,
-        error: errorStint,
-    } = useTimingAppData();
-
-    const {
         data: sector,
         isLoading: LoadingTimingData,
         error: errorTimingData,
     } = useTimingData();
 
-    const {
-        data: carData,
-        isLoading: LoadingCarData,
-        error: errorCarData,
-    } = useCarData();
-
-    const {
-        data: lapSeries,
-        isLoading: LoadingLapSeries,
-        error: errorLapSeries,
-    } = useLapSeries();
-
-    if (
-        isLoading ||
-        LoadingStint ||
-        LoadingTimingData ||
-        LoadingCarData ||
-        LoadingLapSeries
-    )
-        return <p>Loading drivers...</p>;
-    if (
-        error ||
-        errorStint ||
-        errorTimingData ||
-        errorCarData ||
-        errorLapSeries
-    )
-        return <p>Error loading drivers.</p>;
+    if (isLoading || LoadingTimingData) return <p>Loading drivers...</p>;
+    if (error || errorTimingData) return <p>Error loading drivers.</p>;
 
     return (
         <div className="w-full mx-auto rounded-xl bg-f1-bgLight col-span-12 lg:col-span-8 border border-f1-border block overflow-auto">
@@ -104,42 +69,15 @@ export default function TableDrivers() {
                             </td>
                             <td className="px-6">
                                 {" "}
-                                <CarSpeed
-                                    speed={
-                                        carData.Entries[0].Cars[
-                                            entry.RacingNumber
-                                        ]?.Channels["2"]
-                                    }
-                                />
+                                <CarSpeed racingNumber={entry.RacingNumber} />
                             </td>
                             <td className="px-3">
                                 {" "}
-                                <CarDrs
-                                    drs={
-                                        carData.Entries[0].Cars[
-                                            entry.RacingNumber
-                                        ]?.Channels["45"]
-                                    }
-                                />
+                                <CarDrs racingNumber={entry.RacingNumber} />
                             </td>
 
                             <td className="px-3">
-                                <TyreIcon
-                                    compound={
-                                        stint.Lines[entry.RacingNumber]
-                                            ?.Stints?.[
-                                            stint.Lines[entry.RacingNumber]
-                                                ?.Stints.length - 1
-                                        ]?.Compound
-                                    }
-                                    totalLaps={
-                                        stint.Lines[entry.RacingNumber]
-                                            ?.Stints?.[
-                                            stint.Lines[entry.RacingNumber]
-                                                ?.Stints.length - 1
-                                        ]?.TotalLaps
-                                    }
-                                />
+                                <TyreIcon racingNumber={entry.RacingNumber} />
                             </td>
                             <td className="px-5 py-1">
                                 <p className="font-bold">
