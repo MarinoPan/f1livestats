@@ -1,14 +1,13 @@
-import { useTimingAppData } from "@/hooks/useTimingAppData";
+import React from "react";
+import { useDataStore } from "@store/dataStore";
 
 type TyreIconProps = {
     racingNumber: string;
 };
 
 const TyreIcon = ({ racingNumber }: TyreIconProps) => {
-    const { data: stint, isLoading, error } = useTimingAppData();
-
-    if (isLoading) return <p>...</p>;
-    if (error) return <p>...</p>;
+    const timingAppData = useDataStore((state) => state.TimingAppData);
+    if (!timingAppData) return <div>No data available</div>;
 
     const icons: Record<string, string> = {
         HARD: "/tyres/hard.svg",
@@ -16,18 +15,23 @@ const TyreIcon = ({ racingNumber }: TyreIconProps) => {
         MEDIUM: "/tyres/medium.svg",
         WET: "/tyres/wet.svg",
         INTERMEDIATE: "/tyres/intermediate.svg",
-        UNKNOW: "/tyres/unknown.svg",
+        UNKNOWN: "/tyres/unknown.svg",
     };
 
-    const compound =
-        stint.Lines[racingNumber]?.Stints?.[
-            stint.Lines[racingNumber]?.Stints.length - 1
-        ]?.Compound;
+    const driverData = timingAppData?.Lines?.[racingNumber];
+    if (!driverData || !driverData.Stints) {
+        return <div>No stint data available for driver {racingNumber}</div>;
+    }
 
-    const totalLaps =
-        stint.Lines[racingNumber]?.Stints?.[
-            stint.Lines[racingNumber]?.Stints.length - 1
-        ]?.TotalLaps;
+    // Ottieni tutti gli stint come array
+    const stintArray = Object.values(driverData.Stints);
+
+    // Prendi l'ultimo stint disponibile
+    const lastStint = stintArray[stintArray.length - 1];
+
+    // Estrai i valori necessari con fallback
+    const compound = lastStint?.Compound || "UNKNOWN";
+    const totalLaps = lastStint?.TotalLaps ?? 0;
 
     return icons[compound] ? (
         <div className="flex flex-row gap-2 items-center">
@@ -40,7 +44,15 @@ const TyreIcon = ({ racingNumber }: TyreIconProps) => {
             <p>L {totalLaps}</p>
         </div>
     ) : (
-        <span>{compound}</span>
+        <div className="flex flex-row gap-2 items-center">
+            <img
+                src={icons["UNKNOWN"]}
+                alt="Unknown tyre"
+                width={24}
+                height={24}
+            />
+            <p>L {totalLaps}</p>
+        </div>
     );
 };
 

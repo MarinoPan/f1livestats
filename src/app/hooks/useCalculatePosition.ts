@@ -1,30 +1,10 @@
 import { useMemo } from "react";
 
-interface LapTimeData {
-    Withheld: boolean;
-    Lines: Record<
-        string,
-        {
-            Line: number;
-            RacingNumber: string;
-            PersonalBestLapTime: {
-                Lap: number;
-                Position: number;
-                Value: string;
-            };
-        }
-    >;
-}
-
-const useCalculatePosition = (data: LapTimeData) => {
+const useCalculatePosition = (position: number | null) => {
     return useMemo(() => {
-        if (!data?.Lines) return [];
-
-        return Object.values(data.Lines).sort(
-            (a, b) =>
-                a.PersonalBestLapTime.Position - b.PersonalBestLapTime.Position
-        );
-    }, [data]);
+        if (position === null || position === undefined) return null;
+        return position;
+    }, [position]);
 };
 
 export default useCalculatePosition;

@@ -1,6 +1,6 @@
 export async function fetchStanding() {
     const response = await fetch(
-        "https://api.jolpi.ca/ergast/f1/2024/driverstandings"
+        "https://api.jolpi.ca/ergast/f1/2025/driverstandings"
     );
 
     if (!response.ok) {
