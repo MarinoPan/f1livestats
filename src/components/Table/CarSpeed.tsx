@@ -1,17 +1,14 @@
+import { useDataStore } from "@store/dataStore";
 import ProgressCircle from "./ProgressCircle";
-import { useCarData } from "@/hooks/useCarData";
 
 type CarSpeedProps = {
     racingNumber: string;
 };
 
 const CarSpeed = ({ racingNumber }: CarSpeedProps) => {
-    const { data: carData, isLoading, error } = useCarData();
+    const carData = useDataStore((state) => state.CarData?.Entries[0].Cars);
 
-    if (isLoading) return <p>...</p>;
-    if (error) return <p>...</p>;
-
-    const speed = carData.Entries[0].Cars[racingNumber]?.Channels["2"];
+    const speed = carData?.[racingNumber]?.Channels?.[2] || 0;
 
     return (
         <div className="flex flex-col items-center">

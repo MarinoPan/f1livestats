@@ -1,4 +1,4 @@
-import { useLapSeries } from "@/hooks/useLapSeries";
+import { useDataStore } from "@store/dataStore";
 import { ArrowUp, ArrowDown, Minus } from "lucide-react";
 
 type PositionChangeProps = {
@@ -6,16 +6,21 @@ type PositionChangeProps = {
 };
 
 const PositionChange = ({ racingNumber }: PositionChangeProps) => {
-    const { data: lapSeries, isLoading, error } = useLapSeries();
+    const timingAppData = useDataStore((state) => state.TimingAppData);
+    const timingData = useDataStore((state) => state.TimingData);
 
-    if (isLoading) return <p>...</p>;
-    if (error) return <p>err</p>;
+    // Ottieni la posizione attuale
+    const previousPosition = parseInt(
+        timingAppData?.Lines[racingNumber]?.GridPos ?? "0"
+    );
 
-    const positionDiff =
-        lapSeries[racingNumber]?.LapPosition[0] -
-        lapSeries[racingNumber]?.LapPosition[
-            lapSeries[racingNumber].LapPosition.length - 1
-        ];
+    // Ottieni la posizione precedente dall'ultimo giro
+    const currentPosition = parseInt(
+        timingData?.Lines[racingNumber]?.Position ?? "0"
+    );
+
+    // Calcola la differenza
+    const positionDiff = previousPosition - currentPosition;
 
     const positionStatus =
         positionDiff > 0
@@ -23,12 +28,14 @@ const PositionChange = ({ racingNumber }: PositionChangeProps) => {
             : positionDiff < 0
             ? "text-red-500"
             : "text-gray-500";
+
     const Icon =
         positionDiff > 0 ? ArrowUp : positionDiff < 0 ? ArrowDown : Minus;
+
     return (
         <div className={`flex items-center gap-1 ${positionStatus}`}>
             <Icon size={16} />
-            <p>{positionDiff}</p>
+            <p>{Math.abs(positionDiff)}</p>
         </div>
     );
 };
