@@ -1,7 +1,28 @@
 "use client";
 
 import { useSchedules } from "@/hooks/useSchedules";
-import { RaceTable } from "@/types/type";
+
+interface RaceTable {
+    season: string;
+    round: string;
+    url: string;
+    raceName: string;
+    Circuit: Circuit;
+}
+
+interface Circuit {
+    circuitId: string;
+    url: string;
+    circuitName: string;
+    Location: Location;
+}
+
+interface Location {
+    lat: string;
+    long: string;
+    locality: string;
+    country: string;
+}
 
 export default function Schedules() {
     const { data: schedules, isLoading, isError } = useSchedules();
