@@ -39,6 +39,7 @@ const SegmentsSectors: React.FC<SegmentsSectorsProps> = ({
         );
 
         setSegmentsWithKeys(newSegments);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [racingNumber]);
 
     return (
