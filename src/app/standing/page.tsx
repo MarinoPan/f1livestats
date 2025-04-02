@@ -2,10 +2,6 @@
 
 import { useStanding } from "@/hooks/useStanding";
 
-interface DriverStandingsList {
-    DriverStandings: DriverStanding[];
-}
-
 interface DriverStanding {
     position: string;
     positionText: string;
