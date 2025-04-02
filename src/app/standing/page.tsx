@@ -1,7 +1,33 @@
 "use client";
 
 import { useStanding } from "@/hooks/useStanding";
-import { DriverStanding } from "@/types/type";
+
+interface DriverStanding {
+    position: string;
+    positionText: string;
+    points: string;
+    wins: string;
+    Driver: Driver;
+    Constructors: Constructor[];
+}
+
+interface Constructor {
+    constructorId: string;
+    url: string;
+    name: string;
+    nationality: string;
+}
+
+interface Driver {
+    driverId: string;
+    permanentNumber: string;
+    code: string;
+    url: string;
+    givenName: string;
+    familyName: string;
+    dateOfBirth: string;
+    nationality: string;
+}
 
 export default function Ranking() {
     const { data: standings, isLoading, isError } = useStanding();
@@ -37,7 +63,6 @@ export default function Ranking() {
                                 </td>
                                 <td className="p-3 flex-row">
                                     <span>{driver.Driver.givenName} </span>
-
                                     <span>{driver.Driver.familyName}</span>
                                 </td>
                                 <td className="p-3 flex-row">
