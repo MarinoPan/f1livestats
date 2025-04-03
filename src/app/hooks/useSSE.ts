@@ -41,6 +41,7 @@ interface SSEEvent {
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+console.log("🌐 API URL:", API_URL);
 
 export function useSSE() {
   const updateStore = useDataStore((state) => state.update);
@@ -54,8 +55,10 @@ export function useSSE() {
 
   const loadInitialState = useCallback(async () => {
     try {
-      console.log("🔄 Caricamento stato iniziale...");
-      const response = await fetch(`${API_URL}/latest-state`);
+      const url = `${API_URL}/latest-state`;
+      console.log("🔄 Caricamento stato iniziale da:", url);
+      const response = await fetch(url);
+      console.log("📥 Risposta ricevuta:", response.status);
       const { data } = await response.json();
 
       if (!data) {
@@ -148,7 +151,9 @@ export function useSSE() {
       `🔄 Tentativo di connessione #${connectionAttemptsRef.current}`
     );
 
-    const eventSource = new EventSource(`${API_URL}/events`);
+    const eventSource = new EventSource(`${API_URL}/events`, {
+      withCredentials: true,
+    });
 
     eventSource.onopen = () => {
       console.log("✅ Connessione SSE stabilita");
