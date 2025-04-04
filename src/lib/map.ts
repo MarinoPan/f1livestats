@@ -1,4 +1,4 @@
-import { Map, TrackPosition } from "@/types/map.type";
+import { Map, TrackPosition } from "src/types/map.type";
 
 export const rad = (deg: number) => deg * (Math.PI / 180);
 

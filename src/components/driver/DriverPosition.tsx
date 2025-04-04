@@ -13,7 +13,7 @@ const PositionDriver = ({
     teamName,
 }: PositionDriverProps) => {
     return (
-        <div className="flex flex-row gap-2 items-center">
+        <div className="flex flex-row gap-2 items-center font-number">
             <p className={`font-bold text-sm w-3`}>{position || "-"}</p>
             <LogoTeam TeamName={teamName} />
             <p className="font-bold text-sm">{acronym}</p>

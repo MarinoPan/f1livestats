@@ -14,7 +14,8 @@ import type {
     TeamRadio,
     Positions,
     CarData,
-} from "@/types/state.type";
+    ExtrapolatedClock,
+} from "src/types/state.type";
 
 export interface StoreState {
     Positions: Positions | null;
@@ -31,6 +32,7 @@ export interface StoreState {
     TeamRadio: TeamRadio | null;
     CarData: CarData | null;
     lastUpdateTime: number;
+    ExtrapolatedClock: ExtrapolatedClock | null;
     update: (
         data: Partial<Omit<StoreState, "update" | "lastUpdateTime">> & {
             "CarData.z"?: CarData;
@@ -55,6 +57,7 @@ export const useDataStore = create<StoreState>()(
             TimingData: null,
             TeamRadio: null,
             CarData: null,
+            ExtrapolatedClock: null,
             lastUpdateTime: Date.now(),
 
             update: (newData) => {

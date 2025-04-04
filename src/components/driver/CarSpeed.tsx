@@ -11,7 +11,7 @@ const CarSpeed = ({ racingNumber }: CarSpeedProps) => {
     const speed = carData?.[racingNumber]?.Channels?.[2] || 0;
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center font-number">
             <ProgressCircle progress={speed} />
             <p className="text-xxs text-gray-500">km/h</p>
         </div>

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchStanding } from "@/lib/api";
+import { fetchStanding } from "src/lib/api";
 
 export function useStanding() {
     return useQuery({

@@ -14,7 +14,7 @@ import type {
     TimingData,
     TeamRadio,
     CarData,
-} from "@/types/state.type";
+} from "src/types/state.type";
 
 type DataChannel = {
     TimingStats: TimingStats;

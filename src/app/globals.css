@@ -1,9 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .styleCard {
+        @apply rounded-xl bg-f1-bgLight border border-f1-border;
+    }
+}
 
 /* Se vuoi personalizzare con variabili CSS */
 /* :root {
@@ -24,19 +31,26 @@
 
 /* @media (prefers-color-scheme: dark) { */
 :root {
-    --f1-red: #d41700;
-    --f1-black: #0a0e14;
+    /* Colori Principali */
+    --f1-red: #ff1801;
+    --f1-black: #0e1012;
     --f1-white: #ffffff;
+
+    /* Backgrounds */
     --f1-bg-light: #121212;
-    --f1-bg-dark: #080808;
-    --f1-gray: #707070;
-    --f1-dark-gray: #2a2a2a;
-    --f1-border: #3c3c3c;
-    --f1-yellow: #e6b800;
-    --f1-blue: #0045a0;
-    --f1-green: #00703a;
-    --f1-orange: #d06000;
-    --f1-purple: #3a0765;
+    --f1-bg-dark: #0a0a0a;
+
+    /* Grigi e Bordi */
+    --f1-gray: #8a8a8a;
+    --f1-dark-gray: #2f2f2f;
+    --f1-border: #444444;
+
+    /* Colori di Accento */
+    --f1-yellow: #ffd700;
+    --f1-blue: #005aff;
+    --f1-green: #00ff5f;
+    --f1-orange: #ff7b00;
+    --f1-purple: #9000ff;
 }
 
 body {

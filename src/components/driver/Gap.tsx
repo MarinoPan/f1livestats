@@ -8,15 +8,12 @@ const Gap = ({ racingNumber }: GapProps) => {
     const gap = useDataStore((state) => state.TimingData);
 
     return (
-        <div>
+        <div className="font-number">
             <p className="font-bold">
-                {
-                    gap?.Lines?.[racingNumber]?.Stats?.at(-1)
-                        ?.TimeDifftoPositionAhead
-                }
+                {gap?.Lines?.[racingNumber]?.TimeDiffToPositionAhead || "-- --"}
             </p>
             <p className="text-xs">
-                {gap?.Lines?.[racingNumber]?.Stats?.at(-1)?.TimeDiffToFastest}
+                {gap?.Lines?.[racingNumber]?.TimeDiffToFastest || "-- --"}
             </p>
         </div>
     );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useStanding } from "@/hooks/useStanding";
+import { useStanding } from "src/hooks/useStanding";
 
 interface DriverStanding {
     position: string;

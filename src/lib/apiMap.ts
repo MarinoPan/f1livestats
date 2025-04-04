@@ -1,6 +1,6 @@
 // api.ts
 
-import { CircuitData } from "@/types/map.type";
+import { CircuitData } from "src/types/map.type";
 
 export const fetchCircuitData = async (
     circuit: number
