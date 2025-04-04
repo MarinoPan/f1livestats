@@ -75,13 +75,24 @@ export const useDataStore = create<StoreState>()(
                             // Confronta i dati precedenti con i nuovi
                             const currentValue =
                                 currentState[key as keyof StoreState];
-                            const shouldUpdate =
-                                JSON.stringify(currentValue) !==
-                                JSON.stringify(value);
+
+                            // Se il valore corrente è null, usiamo direttamente il nuovo valore
+                            if (currentValue === null) {
+                                return {
+                                    ...acc,
+                                    [key]: value,
+                                };
+                            }
+
+                            // Altrimenti, facciamo un merge profondo dei dati
+                            const mergedValue = typeSafeDeepMerge(
+                                currentValue as Record<string, unknown>,
+                                value as Record<string, unknown>
+                            );
 
                             return {
                                 ...acc,
-                                [key]: shouldUpdate ? value : currentValue,
+                                [key]: mergedValue,
                             };
                         },
                         { ...state }
@@ -122,16 +133,33 @@ export function typeSafeDeepMerge<T extends Record<string, unknown>>(
         const sourceValue = source[key];
         const targetValue = target[key];
 
+        // Se il valore sorgente è null o undefined, lo ignoriamo
+        if (sourceValue === null || sourceValue === undefined) {
+            return;
+        }
+
+        // Se il valore target è null o undefined, usiamo direttamente il valore sorgente
+        if (targetValue === null || targetValue === undefined) {
+            (result as Record<string, unknown>)[key] =
+                sourceValue as T[keyof T];
+            return;
+        }
+
+        // Se entrambi i valori sono oggetti (non array), facciamo un merge ricorsivo
         if (
             sourceValue &&
             typeof sourceValue === "object" &&
-            !Array.isArray(sourceValue)
+            !Array.isArray(sourceValue) &&
+            targetValue &&
+            typeof targetValue === "object" &&
+            !Array.isArray(targetValue)
         ) {
             (result as Record<string, unknown>)[key] = typeSafeDeepMerge(
                 targetValue as Record<string, unknown>,
                 sourceValue as Record<string, unknown>
             ) as T[keyof T];
         } else {
+            // Altrimenti, sovrascriviamo il valore target con il valore sorgente
             (result as Record<string, unknown>)[key] =
                 sourceValue as T[keyof T];
         }

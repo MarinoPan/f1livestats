@@ -29,23 +29,35 @@ const SegmentsSectors: React.FC<SegmentsSectorsProps> = ({
 
     useEffect(() => {
         const driver = segment?.Lines[racingNumber];
-        if (!driver?.Sectors?.[numberSector]?.Segments) return;
+        const sectors = driver?.Sectors?.[numberSector];
+        const segments = sectors?.Segments;
 
-        const newSegments = driver.Sectors[numberSector].Segments.map(
-            (seg, index) => ({
-                id: index.toString(),
-                color: colorMapping[seg.Status] || "bg-gray-500",
-            })
-        );
+        console.log("Dati settori:", {
+            driver,
+            sectors,
+            segments,
+            isArray: Array.isArray(segments),
+        });
+
+        if (!segments || !Array.isArray(segments)) {
+            setSegmentsWithKeys([]);
+            return;
+        }
+
+        const newSegments = segments.map((seg, index) => ({
+            id: index.toString(),
+            color: colorMapping[seg.Status] || "bg-gray-500",
+        }));
 
         setSegmentsWithKeys(newSegments);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [racingNumber]);
+    }, [racingNumber, numberSector, segment]);
 
     return (
         <div className="flex flex-col gap-1">
             <p>
-                {segment?.Lines[racingNumber]?.Sectors?.[numberSector]?.Value}
+                {segment?.Lines[racingNumber]?.Sectors?.[numberSector]?.Value ||
+                    "-"}
             </p>
             <div className="flex space-x-1">
                 {segmentsWithKeys.map((seg) => (
