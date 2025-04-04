@@ -33,7 +33,9 @@ const PositionChange = ({ racingNumber }: PositionChangeProps) => {
         positionDiff > 0 ? ArrowUp : positionDiff < 0 ? ArrowDown : Minus;
 
     return (
-        <div className={`flex items-center gap-1 ${positionStatus}`}>
+        <div
+            className={`flex items-center gap-1 font-number ${positionStatus}`}
+        >
             <Icon size={16} />
             <p>{Math.abs(positionDiff)}</p>
         </div>

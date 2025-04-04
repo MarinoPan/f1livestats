@@ -29,12 +29,13 @@ const Flags: React.FC<{ country: string }> = ({ country }) => {
     };
 
     return flags[country] ? (
-        <div className="flex flex-row gap-2 items-center">
+        <div className="flex flex-row gap-2 items-center ">
             <img
                 src={flags[country]}
                 alt={`${country} tyre`}
-                width={24}
-                height={24}
+                width={64}
+                height={64}
+                className="rounded-lg"
             />
         </div>
     ) : (

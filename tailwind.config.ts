@@ -25,9 +25,8 @@ module.exports = {
                 },
             },
             fontFamily: {
-                sans: ["IBM Plex Mono", "Arial", "sans-serif"],
-                inter: ["Inter"],
-                display: ["Oswald", "sans-serif"],
+                sans: ["Titillium Web", "Arial", "sans-serif"],
+                number: ["JetBrains Mono", "sans-serif"],
             },
             boxShadow: {
                 card: "0px 4px 10px rgba(255, 24, 1, 0.2)",
@@ -39,6 +38,13 @@ module.exports = {
             },
             fontSize: {
                 xxs: "10px",
+                xs: "12px",
+                sm: "14px",
+                base: "16px",
+                lg: "20px",
+                xl: "24px",
+                "2xl": "36px",
+                "3xl": "48px",
             },
         },
     },

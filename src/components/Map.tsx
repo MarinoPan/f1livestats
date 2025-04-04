@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDataStore } from "@store/dataStore";
 import { LoaderCircle } from "lucide-react";
-import { useCircuitData } from "@/hooks/useCircuitData";
+import { useCircuitData } from "src/hooks/useCircuitData";
 import CarDot from "@components/CarDot";
 import { rotate, rad } from "../lib/map";
 
@@ -124,7 +124,7 @@ export default function Map() {
 
     if (circuitLoading) {
         return (
-            <div className="h-96 w-full mx-auto rounded-xl bg-f1-bgLight overflow-hidden p-6 col-span-4 border border-f1-border content-center justify-items-center">
+            <div className="styleCard h-96 w-full mx-auto overflow-hidden p-6 col-span-4 content-center justify-items-center">
                 <LoaderCircle className="animate-spin" />
             </div>
         );
@@ -136,7 +136,7 @@ export default function Map() {
     return (
         <svg
             viewBox={`${minX} ${minY} ${widthX} ${widthY}`}
-            className="w-full mx-auto rounded-xl bg-f1-bgLight overflow-hidden p-6 border border-f1-border"
+            className="styleCard w-full mx-auto overflow-hidden p-6"
             xmlns="http://www.w3.org/2000/svg"
         >
             <path

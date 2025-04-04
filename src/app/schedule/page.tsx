@@ -1,6 +1,6 @@
 "use client";
 
-import { useSchedules } from "@/hooks/useSchedules";
+import { useSchedules } from "src/hooks/useSchedules";
 
 interface RaceTable {
     season: string;
