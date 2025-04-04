@@ -40,8 +40,7 @@ interface SSEEvent {
   timestamp: number;
 }
 
-//const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
-const API_URL = "http://localhost:4000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 console.log("🌐 API URL:", API_URL);
 
 export function useSSE() {
@@ -167,84 +166,12 @@ export function useSSE() {
 
     eventSource.onmessage = (event: MessageEvent) => {
       try {
-        console.log(
-          "📥 Messaggio SSE ricevuto:",
-          event.data.substring(0, 100) + "..."
-        );
         const data = JSON.parse(event.data);
-
-        // Gestione speciale per CarData.z e Position.z
-        if (data.channel === "CarData.z" || data.channel === "Position.z") {
-          console.log(
-            `🔍 Dati speciali ricevuti per il canale ${data.channel}`
-          );
-
-          // Se il payload ha una proprietà decoded, potrebbe essere binario
-          if (data.payload && data.payload.decoded) {
-            try {
-              // Converti la stringa binaria in un array di byte
-              const binaryString = data.payload.decoded;
-              const bytes = new Uint8Array(binaryString.length);
-              for (let i = 0; i < binaryString.length; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-              }
-
-              // Crea un oggetto DataView per leggere i dati binari
-              const dataView = new DataView(bytes.buffer);
-
-              // Leggi i dati in base al tipo di canale
-              let decodedData = {};
-              if (data.channel === "CarData.z") {
-                // Esempio di decodifica per CarData.z
-                decodedData = {
-                  speed: dataView.getFloat32(0, true),
-                  throttle: dataView.getFloat32(4, true),
-                  brake: dataView.getFloat32(8, true),
-                  gear: dataView.getInt8(12),
-                  // Aggiungi altri campi in base alla struttura dei dati
-                };
-              } else if (data.channel === "Position.z") {
-                // Esempio di decodifica per Position.z
-                decodedData = {
-                  x: dataView.getFloat32(0, true),
-                  y: dataView.getFloat32(4, true),
-                  z: dataView.getFloat32(8, true),
-                  // Aggiungi altri campi in base alla struttura dei dati
-                };
-              }
-
-              console.log(
-                `✅ Dati decodificati per ${data.channel}:`,
-                decodedData
-              );
-
-              // Sostituisci il payload con i dati decodificati
-              data.payload = decodedData;
-            } catch (e) {
-              console.error(
-                `❌ Errore nella decodifica dei dati per ${data.channel}:`,
-                e
-              );
-              // Se la decodifica fallisce, mantieni il valore originale
-            }
-          }
-        }
-
         processSSEData(data);
       } catch (error) {
         console.error("❌ Errore nel parsing dei dati SSE:", error);
       }
     };
-
-    // Aggiungiamo un handler per i messaggi di ping
-    eventSource.addEventListener("ping", () => {
-      console.log("🔄 Ping ricevuto dal server");
-    });
-
-    // Aggiungiamo un handler per i messaggi di heartbeat
-    eventSource.addEventListener("heartbeat", () => {
-      console.log("💓 Heartbeat ricevuto dal server");
-    });
 
     eventSource.onerror = (error) => {
       console.error("❌ Errore nella connessione SSE:", error);
