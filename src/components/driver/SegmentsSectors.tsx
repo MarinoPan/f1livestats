@@ -1,6 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDataStore } from "@store/dataStore";
 
+// Move colorMapping outside the component
+const colorMapping: Record<number, string> = {
+    0: "var(--f1-gray)",
+    2048: "var(--f1-yellow)",
+    2049: "var(--f1-green)",
+    2050: "var(--f1-black)",
+    2051: "var(--f1-blue)",
+    2052: "var(--f1-red)",
+    2064: "var(--f1-purple)",
+    2068: "white",
+};
+
 type SegmentsSectorsProps = {
     racingNumber: string;
     numberSector: number;
@@ -10,17 +22,6 @@ const SegmentsSectors: React.FC<SegmentsSectorsProps> = ({
     racingNumber,
     numberSector,
 }) => {
-    const colorMapping: Record<number, string> = {
-        0: "var(--f1-gray)",
-        2048: "var(--f1-yellow)",
-        2049: "var(--f1-green)",
-        2050: "var(--f1-black)",
-        2051: "var(--f1-blue)",
-        2052: "var(--f1-red)",
-        2064: "var(--f1-purple)",
-        2068: "white",
-    };
-
     const segment = useDataStore((state) => state.TimingData);
     const timingStats = useDataStore((state) => state.TimingStats);
 
@@ -33,18 +34,31 @@ const SegmentsSectors: React.FC<SegmentsSectorsProps> = ({
         const sectors = driver?.Sectors?.[numberSector];
         const segments = sectors?.Segments;
 
-        if (!segments || !Array.isArray(segments)) {
-            setSegmentsWithKeys([]);
+        // Create a fixed array of 10 segments (typical F1 sector has 8-10 segments)
+        const defaultSegments = Array(10)
+            .fill(null)
+            .map((_, index) => ({
+                id: index.toString(),
+                color: colorMapping[2050], // Default to black
+            }));
+
+        if (!segments) {
+            setSegmentsWithKeys(defaultSegments);
             return;
         }
 
-        const newSegments = segments.map((seg, index) => ({
-            id: index.toString(),
-            color: colorMapping[seg.Status] || "bg-gray-500",
-        }));
+        // Update only the segments that exist in the data
+        Object.entries(segments).forEach(([index, segmentData]) => {
+            const segmentIndex = parseInt(index);
+            if (segmentIndex < defaultSegments.length) {
+                defaultSegments[segmentIndex] = {
+                    id: index,
+                    color: colorMapping[segmentData.Status] || "bg-gray-500",
+                };
+            }
+        });
 
-        setSegmentsWithKeys(newSegments);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        setSegmentsWithKeys(defaultSegments);
     }, [racingNumber, numberSector, segment]);
 
     // Get Value and PreviousValue separately

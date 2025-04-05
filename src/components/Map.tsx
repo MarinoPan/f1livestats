@@ -136,18 +136,18 @@ export default function Map() {
     return (
         <svg
             viewBox={`${minX} ${minY} ${widthX} ${widthY}`}
-            className="styleCard w-full mx-auto overflow-hidden p-6"
+            className="styleCard w-full mx-auto overflow-hidden p-6 relative"
             xmlns="http://www.w3.org/2000/svg"
         >
             <path
                 className="white"
                 stroke="white"
-                strokeWidth={100}
+                strokeWidth={60}
                 strokeLinejoin="round"
                 fill="transparent"
                 d={`M${points[0].x},${points[0].y} ${points
                     .map((point) => `L${point.x},${point.y}`)
-                    .join(" ")}`}
+                    .join(" ")} Z`}
             />
             {corners.map((corner) => (
                 <text
