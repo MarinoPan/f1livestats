@@ -1,35 +1,26 @@
 import { useDataStore } from "@store/dataStore";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
+import { Message } from "../types/state.type";
 
-interface RaceControlMessage {
-    Utc: string;
-    Category: string;
-    Flag?: string;
-    Scope?: string;
-    Message: string;
+function isRaceControlMessage(msg: unknown): msg is Message {
+    if (!msg || typeof msg !== "object") return false;
+
+    const requiredFields = ["Utc", "Category", "Message"];
+    return requiredFields.every((field) => field in msg);
 }
 
 export default function Messages() {
-    const messages = useDataStore(
-        (state) => state.RaceControlMessages?.Messages ?? []
+    const raceControlMessages = useDataStore(
+        (state) => state.RaceControlMessages?.Messages
     );
-    const [formattedMessages, setFormattedMessages] = useState<
-        Array<{
-            category: string;
-            date: string;
-            message: string;
-            flag?: string;
-        }>
-    >([]);
 
-    useEffect(() => {
-        if (!messages) return;
+    const formattedMessages = useMemo(() => {
+        if (!raceControlMessages || typeof raceControlMessages !== "object") {
+            return [];
+        }
 
-        const formatted = Object.values(messages)
-            .filter(
-                (msg): msg is RaceControlMessage =>
-                    typeof msg === "object" && msg !== null
-            )
+        const messages = Object.values(raceControlMessages)
+            .filter(isRaceControlMessage)
             .sort(
                 (a, b) => new Date(b.Utc).getTime() - new Date(a.Utc).getTime()
             )
@@ -55,10 +46,16 @@ export default function Messages() {
                 };
             });
 
-        setFormattedMessages(formatted);
-    }, [messages]);
+        return messages;
+    }, [raceControlMessages]);
 
-    if (!formattedMessages.length) return <div>No data available</div>;
+    if (!formattedMessages.length) {
+        return (
+            <div className="bg-f1-bgLight rounded-xl w-full p-4 text-center text-gray-500">
+                Nessun messaggio disponibile
+            </div>
+        );
+    }
 
     return (
         <section className="bg-f1-bgLight rounded-xl w-full flex flex-col border border-f1-border max-h-96 overflow-hidden">
