@@ -34,24 +34,12 @@ const TyreIcon = ({ racingNumber }: TyreIconProps) => {
     const compound = lastStint?.Compound || "UNKNOWN";
     const totalLaps = lastStint?.TotalLaps ?? 0;
 
-    return icons[compound] ? (
+    return (
         <div className="inline-flex items-center gap-2 font-number">
             <div className="w-6 h-6">
                 <img
-                    src={icons[compound]}
-                    alt={`${compound} tyre`}
-                    width={24}
-                    height={24}
-                />
-            </div>
-            <span className="text-sm whitespace-nowrap">L {totalLaps}</span>
-        </div>
-    ) : (
-        <div className="inline-flex items-center gap-2">
-            <div className="w-6 h-6">
-                <img
-                    src={icons["UNKNOWN"]}
-                    alt="Unknown tyre"
+                    src={icons[compound] || icons["UNKNOWN"]}
+                    alt={`${compound || "Unknown"} tyre`}
                     width={24}
                     height={24}
                     className="w-full h-full object-contain"

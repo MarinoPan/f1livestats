@@ -5,16 +5,29 @@ type GapProps = {
 };
 
 const Gap = ({ racingNumber }: GapProps) => {
-    const gap = useDataStore((state) => state.TimingData);
+    const timingData = useDataStore((state) => state.TimingData);
+    const gap = timingData?.Lines?.[racingNumber];
+
+    const gapToPositionAhead =
+        gap?.IntervalToPositionAhead?.Value ??
+        gap?.Stats?.[timingData?.SessionPart ? timingData.SessionPart - 1 : 0]
+            ?.TimeDifftoPositionAhead ??
+        undefined ??
+        gap?.TimeDiffToPositionAhead ??
+        "-- --";
+
+    const gapToLeader =
+        gap?.GapToLeader ??
+        gap?.Stats?.[timingData?.SessionPart ? timingData.SessionPart - 1 : 0]
+            ?.TimeDiffToFastest ??
+        undefined ??
+        gap?.TimeDiffToFastest ??
+        "-- --";
 
     return (
-        <div className="font-number">
-            <p className="font-bold">
-                {gap?.Lines?.[racingNumber]?.TimeDiffToPositionAhead || "-- --"}
-            </p>
-            <p className="text-xs">
-                {gap?.Lines?.[racingNumber]?.TimeDiffToFastest || "-- --"}
-            </p>
+        <div className="font-number min-w-14">
+            <p className="font-bold">{gapToPositionAhead || "-- ---"}</p>
+            <p className="text-xs">{gapToLeader || "-- ---"}</p>
         </div>
     );
 };

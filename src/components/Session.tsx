@@ -31,24 +31,9 @@ export default function Session() {
     const trackStatus = useDataStore((state) => state.TrackStatus);
     const extrapolatedClock = useDataStore((state) => state.ExtrapolatedClock);
 
-    const formatTime = (milliseconds: number) => {
-        const hours = Math.floor(milliseconds / 3600000);
-        const minutes = Math.floor((milliseconds % 3600000) / 60000);
-        const seconds = Math.floor((milliseconds % 60000) / 1000);
-        return `${hours.toString().padStart(2, "0")}:${minutes
-            .toString()
-            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    };
-
     const timeRemaining =
         extrapolatedClock?.Remaining && extrapolatedClock?.Utc
-            ? extrapolatedClock.Extrapolating
-                ? formatTime(
-                      Number(extrapolatedClock.Remaining) -
-                          (Date.now() -
-                              new Date(extrapolatedClock.Utc).getTime())
-                  )
-                : extrapolatedClock.Remaining
+            ? extrapolatedClock.Remaining
             : undefined;
 
     const messageTrack = trackStatus?.Message || "No Data";
@@ -72,7 +57,9 @@ export default function Session() {
                         {sessionInfo?.Meeting.Name}
                     </h1>
                     <div className="flex flex-row items-center gap-2">
-                        <p className="text-lg font-bold">{timeRemaining}</p>
+                        <p className="text-lg font-bold">
+                            {timeRemaining || "00:00:0"}
+                        </p>
                         <p>-</p>
                         <h2 className="text-sm font-italic">
                             Session: {sessionInfo?.Name}
